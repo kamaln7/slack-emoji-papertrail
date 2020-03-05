@@ -29,21 +29,20 @@ const app = new App({
 
 	app.event('emoji_changed', async ({ event, context}) => {
 		try {
-			const action = event.subtype == 'add' ? 'New' : 'Deleted';
+			const action = event.subtype == 'add' ? ':heavy_plus_sign:         ' : ':heavy_minus_sign:         ';
 
 			let emojis = [];
 			event.name && emojis.push(event.name);
 			event.names && emojis.push(...event.names);
 
-			emojis = emojis.map(e => `:${e}:`).join(' ')
-
-			const text = `${action} emojis: ${emojis}`
+			const text = `${action} ` + emojis.map(e => `:${e}: (\`${e}\`)`).join(' ')
 			const result = await app.client.chat.postMessage({
 				token,
 				channel,
 				text,
+				mrkdwn: true,
 			})
-			console.log(text)
+			console.log(event.subtype, emojis)
 		} catch (error) {
 			console.error(error)
 		}
