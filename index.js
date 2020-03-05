@@ -35,7 +35,7 @@ const app = new App({
 			event.name && emojis.push(event.name);
 			event.names && emojis.push(...event.names);
 
-			const text = `${action} ` + emojis.map(e => `:${e}: (\`${e}\`)`).join(' ')
+			const text = `${action} ` + emojis.map(e => `:${e}: (\`:${e}:\`)`).join(' ')
 			const result = await app.client.chat.postMessage({
 				token,
 				channel,
