@@ -35,14 +35,26 @@ const app = new App({
 			event.name && emojis.push(event.name);
 			event.names && emojis.push(...event.names);
 
-			const text = `${action} ` + emojis.map(e => `:${e}: (\`:${e}:\`)`).join(' ')
-			const result = await app.client.chat.postMessage({
+			let text = `${action} ` + emojis.map(e => `:${e}:`).join(' ')
+			let result = await app.client.chat.postMessage({
 				token,
 				channel,
 				text,
 				mrkdwn: true,
 			})
 			console.log(event.subtype, emojis)
+
+			// attach emoji names in thread
+			if (result.ts) {
+				text = emojis.map(e => `:${e}: \`:${e}:\``).join("\n")
+				await app.client.chat.postMessage({
+					token,
+					channel,
+					text,
+					mrkdwn: true,
+					thread_ts: result.ts,
+				})
+			}
 		} catch (error) {
 			console.error(error)
 		}
