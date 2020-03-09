@@ -44,17 +44,14 @@ const app = new App({
 			})
 			console.log(event.subtype, emojis)
 
-			// attach emoji names in thread
-			if (result.ts) {
-				text = emojis.map(e => `:${e}: \`:${e}:\``).join("\n")
-				await app.client.chat.postMessage({
-					token,
-					channel,
-					text,
-					mrkdwn: true,
-					thread_ts: result.ts,
-				})
-			}
+			// send emoji names in a separate message
+			text = emojis.map(e => `:${e}: \`:${e}:\``).join("\n")
+			await app.client.chat.postMessage({
+				token,
+				channel,
+				text,
+				mrkdwn: true,
+			})
 		} catch (error) {
 			console.error(error)
 		}
