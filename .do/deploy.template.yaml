@@ -1,0 +1,17 @@
+spec:
+  name: emoji-papertrail
+  services:
+    - name: emoji-papertrail
+      git:
+        repo_clone_url: https://github.com/kamaln7/slack-emoji-papertrail.git
+        branch: main
+      environment_slug: node-js
+      envs:
+        - key: SLACK_CHANNEL
+          value: channel ID
+        - key: SLACK_SIGNING_SECRET
+          value: app signing secret
+          type: SECRET
+        - key: SLACK_TOKEN
+          value: bot oauth token
+          type: SECRET
